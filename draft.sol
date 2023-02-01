@@ -1,29 +1,27 @@
 // SPDX-License-Identifier: Apache-2.0
-// Author: Bali Sanctuary Team
 pragma solidity ^0.8.17;
 
+/// @author Bali Sanctuary Team
+/// @title Contributors' D-NFT
 contract DNFT {
-
     mapping (address => uint256) NFT_score;
     mapping (address => uint256) LastContribution;
     mapping (address => bool) Provers;
 
     modifier onlyProvers {
-        require(Provers[msg.sender] = true);
+        require(Provers[msg.sender] == true);
         _;
     }
 
     constructor () {
+        /** @dev There should be multiple provers.
+                 Also, it might be a good idea to get at least 2 approvals for petal additions. **/
         Provers[msg.sender] = true;
     }
 
     function mint() external {
         require(NFT_score[msg.sender] < 1, "Your NFT is already minted.");
         NFT_score[msg.sender] = 1;
-    }
-
-    function my_score() external view returns (uint256) {
-        return NFT_score[msg.sender];
     }
 
     function redeem_reward(uint256 _number_of_petals) external returns (uint256){
@@ -44,5 +42,13 @@ contract DNFT {
     function add_prover(address _new_prover) external onlyProvers returns (address) {
         Provers[_new_prover] = true;
         return _new_prover;
+    }
+
+    function my_score() public view returns (uint256) {
+        return NFT_score[msg.sender];
+    }
+
+    function score_of(address _address) public view returns(uint256) {
+        return NFT_score[_address];
     }
 }
