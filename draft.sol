@@ -39,6 +39,10 @@ contract DNFT {
         return NFT_score[_contributor];
     }
 
+    function give_extra_petal(address _contributor, uint _ammount) external onlyProvers {
+        NFT_score[_contributor] += _ammount;
+    }
+
     function add_prover(address _new_prover) external onlyProvers returns (address) {
         Provers[_new_prover] = true;
         return _new_prover;
